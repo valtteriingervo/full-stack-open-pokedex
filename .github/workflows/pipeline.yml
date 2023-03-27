@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - master
-  pull-request:
+  pull-request: # Comment for 11.13
     branches: [master]
     types: [opened, synchronize]
 
