@@ -41,3 +41,15 @@ jobs:
           delay: 3
           rollbackonhealthcheckfailed: true
         if: ${{ github.event_name == 'push' }} # For job steps, this condition needs to be at the end of the step description?
+
+  tag_release:
+    if: ${{ github.event_name == 'push' }} # Add a new version tag only if the PR is approved and pushed/merged into master
+    needs: [simple_deployment_pipeline]
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Bump version and push tag
+        uses: anothrNick/github-tag-action@1.55.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DRY_RUN: true # Use this for testing the pipeline
+          DEFAULT_BUMP: patch
