@@ -1,1 +1,1 @@
-web: npm run start-veryfastcar
+web: npm run start-prod
