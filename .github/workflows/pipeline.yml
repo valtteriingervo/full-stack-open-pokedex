@@ -41,6 +41,15 @@ jobs:
           checkstring: "ok"
           delay: 3
           rollbackonhealthcheckfailed: true
+      # Need to have the pipeline failure here as well as we dont go to tag_release in case this job fails
+      - name: Pipeline Failure
+        uses: rjstone/discord-webhook-notify@v1
+        if: failure()
+        with:
+          severity: error
+          text: "Pipeline failed!"
+          details: Pipeline for the commit ${{github.event.commits[0].url}} triggered by ${{github.actor}} failed :[
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
 
   tag_release:
     # Add a new version tag only if the PR is approved and pushed/merged into master
