@@ -25,7 +25,7 @@ jobs:
       - name: youngest commit message
         env:
           YOUNGEST_COMMIT_MSG: ${{ toJson(github.event.head_commit.message) }}
-        run: echo "$YOUNGEST_COMMIT_MSG
+        run: echo "$YOUNGEST_COMMIT_MSG"
       - name: conditional test
         if: ${{ contains(github.event.head_commit.message, '#skip') }}
         run: echo "This should be printed if there was a skip included in the commit message"
