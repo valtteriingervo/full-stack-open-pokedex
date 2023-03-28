@@ -1,13 +1,13 @@
 name: Deployment pipeline
 
 # Disable the long running pipeline for testing the commit messages
-#on:
-#  push:
-#    branches:
-#      - master
-#  pull_request:
-#    branches: [master]
-#    types: [opened, synchronize]
+on:
+  push:
+    branches:
+      - not_a_branch
+  pull_request:
+    branches: [master]
+    types: [opened, synchronize]
 
 jobs:
   simple_deployment_pipeline:
