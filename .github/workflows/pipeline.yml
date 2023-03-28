@@ -4,7 +4,7 @@ name: Deployment pipeline
 on:
   push:
     branches:
-      - skip_pipeline
+      - master
   pull_request:
     branches: [master]
     types: [opened, synchronize]
@@ -33,7 +33,7 @@ jobs:
       #    start: npm run start-prod
       #    wait-on: http://localhost:5000
       - name: Deploy to Heroku
-        if: github.event_name == 'push' && !contains(github.event.head_commit.message, '#skip')
+        if: github.event_name == 'push' && !contains(join(github.event.commits.*.message, ','), '#skip')
         uses: akhileshns/heroku-deploy@v3.12.13 # This is the action
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
@@ -47,7 +47,7 @@ jobs:
   tag_release:
     # Add a new version tag only if the PR is approved and pushed/merged into master
     # Skip the tagging if the commit message contains "#skip"
-    if: github.event_name == 'push' && !contains(github.event.head_commit.message, '#skip')
+    if: github.event_name == 'push' && !contains(join(github.event.commits.*.message, ','), '#skip')
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-20.04
     steps:
