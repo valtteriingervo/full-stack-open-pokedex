@@ -22,3 +22,9 @@ jobs:
         env:
           COMMIT_MESSAGES: ${{ toJson(github.event.commits.*.message) }}
         run: echo "$COMMIT_MESSAGES"
+      - name: conditional test
+        if: ${{ contains(github.event.commits.*.message, '#skip') }}
+        run: echo "This be printed if there was a skip included in the commit message"
+      - name: conditional test 2
+        if: ${{ !contains(github.event.commits.*.message, '#skip') }}
+        run: echo "This SHOULD NOT be printed if there was a skip included in the commit message"
