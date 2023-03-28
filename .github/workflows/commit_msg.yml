@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - master
+  pull_request:
+    branches: [master]
+    types: [opened, synchronize]
 
 jobs:
   a_test_job:
@@ -26,9 +29,17 @@ jobs:
         env:
           YOUNGEST_COMMIT_MSG: ${{ toJson(github.event.head_commit.message) }}
         run: echo "$YOUNGEST_COMMIT_MSG"
-      - name: conditional test
+      - name: Keyword skip in the latest commit message
         if: ${{ contains(github.event.head_commit.message, '#skip') }}
         run: echo "This should be printed if there was a skip included in the commit message"
-      - name: conditional test 2
+      - name: NO Keyword skip in the latest commit message
         if: ${{ !contains(github.event.head_commit.message, '#skip') }}
         run: echo "This SHOULD NOT be printed if there was a skip included in the commit message"
+        # A Pull request might contain multiple commit messages. If any of those include the "#skip" keyword we should
+        # not be doing tagging or deployment
+      - name: Keyword skip in one of the commit messages
+        if: contains(join(github.event.commits.*.message, ','), '#skip')
+        run: echo "At least one of the commit messages contains the skip keyword"
+      - name: NO keyword in the commit messages
+        if: ${{!contains(join(github.event.commits.*.message, ','), '#skip')}}
+        run: echo "None of the commit messages contains the skip keyword"
