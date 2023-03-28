@@ -30,17 +30,17 @@ jobs:
       #    command: npm run test:e2e
       #    start: npm run start-prod
       #    wait-on: http://localhost:5000
-      #- name: Deploy to Heroku
-      #  if: github.event_name == 'push' && !contains(join(github.event.commits.*.message, ','), '#skip')
-      #  uses: akhileshns/heroku-deploy@v3.12.13 # This is the action
-      #  with:
-      #    heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-      #    heroku_app_name: "cicd-pokedex" #Must be unique in Heroku
-      #    heroku_email: "valtteri.ingervo@aalto.fi"
-      #    healthcheck: "https://cicd-pokedex.herokuapp.com/health"
-      #    checkstring: "ok"
-      #    delay: 3
-      #    rollbackonhealthcheckfailed: true
+      - name: Deploy to Heroku
+        if: github.event_name == 'push' && !contains(join(github.event.commits.*.message, ','), '#skip')
+        uses: akhileshns/heroku-deploy@v3.12.13 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "cicd-pokedex" #Must be unique in Heroku
+          heroku_email: "valtteri.ingervo@aalto.fi"
+          healthcheck: "https://cicd-pokedex.herokuapp.com/health"
+          checkstring: "ok"
+          delay: 3
+          rollbackonhealthcheckfailed: true
 
   tag_release:
     # Add a new version tag only if the PR is approved and pushed/merged into master
@@ -65,7 +65,7 @@ jobs:
         with:
           severity: info
           text: "Pipeline success: New version of Pokedex is deployed"
-          details: To https://cicd-pokedex.herokuapp.com/by ${{github.actor}}
+          details: To https://cicd-pokedex.herokuapp.com/ by ${{github.actor}}
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
       - name: Pipeline Failure
         uses: rjstone/discord-webhook-notify@v1
