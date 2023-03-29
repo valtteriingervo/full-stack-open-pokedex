@@ -5,9 +5,10 @@ on:
     branches:
       - master
   # Run every five minutes on Wednesdays in March 29.
-  schedule:
-    - cron: "5 * 29 3 3"
-    - cron: "10 * * * *" # Run every 10 minutes
+  # Disable the scheduled health checks after completing 11.19
+  #schedule:
+  #  - cron: "5 * 29 3 3"
+  #  - cron: "10 * * * *" # Run every 10 minutes
 
 jobs:
   health_check_job:
