@@ -4,12 +4,12 @@ on:
   push:
     branches:
       - master
-  pull_request:
-    branches: [master]
-    types: [opened, synchronize]
+  # Run every five minutes on Wednesdays in March 29.
+  schedule:
+    - cron: "5 * 29 3 3"
 
 jobs:
-  a_test_job:
+  health_check_job:
     runs-on: ubuntu-20.04
     steps:
       - name: Check the deployed service URL
