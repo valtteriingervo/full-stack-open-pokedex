@@ -3,7 +3,7 @@ name: Testing stuff
 on:
   push:
     branches:
-      - master
+      - not_a_branch
   pull_request:
     branches: [master]
     types: [opened, synchronize]
