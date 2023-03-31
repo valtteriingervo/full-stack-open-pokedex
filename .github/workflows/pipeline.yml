@@ -3,7 +3,7 @@ name: Deployment pipeline
 on:
   push:
     branches:
-      - not_a_branch
+      - master
   pull_request:
     branches: [master]
     types: [opened, synchronize]

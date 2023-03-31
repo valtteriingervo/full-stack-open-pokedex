@@ -3,7 +3,7 @@ name: Periodic health check
 on:
   push:
     branches:
-      - master
+      - not_a_branch # Disable this pipeline from getting triggered on push to master (Exercise 11.19 done)
   # Run every five minutes on Wednesdays in March 29.
   # Disable the scheduled health checks after completing 11.19
   #schedule:
